@@ -9,11 +9,11 @@ const app = express();
 app.get('/usuario',verificaToken,(req,res)=>{
 
     //Hacemos uso del payload -> es toda la informacion del usario que se genero al hacer uso de la authenticacion
-    return res.json({
+    /*return res.json({
         usuario:req.usuario,
         nombre:req.usuario.nombre,
         email:req.usuario.email
-    })
+    })*/
 
     let desde = req.query.desde || 0;
     desde = Number(desde);
