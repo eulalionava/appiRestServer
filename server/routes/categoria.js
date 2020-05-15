@@ -6,6 +6,8 @@ const app = express();
 //MOSTRAR LA LISTA DE CATEGORIAS
 app.get('/categoria',verificaToken,(req,res)=>{
     Categoria.find({})
+                .sort('descripcion')
+                .populate('usuario','nombre email')
                 .exec( (err,categorias)=>{
 
                     if(err){
@@ -58,7 +60,7 @@ app.post('/categoria',verificaToken,(req,res)=>{
 
     let categoria = new Categoria({
         descripcion:body.descripcion,
-        usario:req.usuario._id
+        usuario:req.usuario._id
     })
 
     categoria.save( (err,categoriaDB)=>{
@@ -67,9 +69,7 @@ app.post('/categoria',verificaToken,(req,res)=>{
         if(err){
             return res.status(500).json({
                 ok:false,
-                err:{
-                    message:'erro al crer la categoria'
-                }
+                err
             })
         }
 
