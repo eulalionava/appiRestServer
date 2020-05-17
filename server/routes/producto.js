@@ -204,5 +204,30 @@ app.delete('/producto/:id',[verificaToken,verificaAdmin_role],(req,res)=>{
     
 })
 
+//Busqueda lijera similar un like de mysql
+app.get('/productos/buscar/:termine',verificaToken,(req,res)=>{
+
+    let temino = req.params.termino;
+    let busca = new RegExp(temino,'i');
+
+    Producto.find({nombre:termino})
+    .populate('categoria','nombre')
+    .exec( (err,productos)=>{
+
+        if(err){
+            return res.status(500).json({
+                ok:false,
+                err
+            })
+        }
+
+        res.json({
+            ok:true,
+            productos
+        })
+    })
+
+})
+
 
 module.exports = app;
